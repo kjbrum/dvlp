@@ -1,4 +1,4 @@
-# ![dvlp](media/logo.svg)
+# ![dvlp](media/logo.png)
 
 > A command line tool for easily getting started on projects.
 
