@@ -24,18 +24,18 @@ cat <<EOF
 
 dvlp
 
-A command line tool for easily getting started on projects.
+A command line tool for easily getting started on projects
 
 Usage:
-    dvlp <project>
+    dvlp <project-name>
 
 Tasks:
-    <project>        The name of the project you want to setup
-    init             Initialize the project config
-    --no-bs          Skip running BrowserSync
-    --no-terminal    Skip opening the terminal
-    --no-finder      Skip opening Finder
-    --no-editor      Skip opening the editor
+    <project-name>    The name of the project you want to setup
+    init              Initialize the project config
+    --no-bs           Skip running BrowserSync
+    --no-terminal     Skip opening the terminal
+    --no-finder       Skip opening Finder
+    --no-editor       Skip opening the editor
 
 EOF
 exit;
@@ -74,8 +74,8 @@ is_setup() {
 
 # Check if the setup task has been run
 check_setup() {
-    if ! is_setup; then
-        error "You need to run 'dvlp init' before you can do anything else..." 0
+    if [ ! is_setup -a "$1" != "init" ]; then
+        error "You need to run \"dvlp init\" to get things set up." 0
     fi
 }
 
@@ -109,16 +109,22 @@ dvlp_init() {
     fi
 }
 
+# LIST: List all possible projects
+dvlp_list() {
+    printf "${GREEN}==> List${WHITE}\n"
+}
+
 
 
 # -------------------------------------------------------
 # DVLP INITIALIZATION
 # -------------------------------------------------------
 
-check_setup
+check_setup "$1"
 
 # See what task we need to run
 case "$1" in
     init)   dvlp_init;;
+    list)   dvlp_list;;
     *)      printf "${RED}Error:${WHITE} Illegal task -- $1 (see \"dvlp --help\" for help)\n";;
 esac
