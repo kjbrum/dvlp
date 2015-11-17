@@ -25,13 +25,12 @@ Tasks:
     init             Initialize the project config
     version          Display the current version
     cleanup          Cleanup config files
-    <project>        The name of the project you want to setup
+    <project>        Name of the project you want to work on
 
 Options:
-    --no-bs          Skip running BrowserSync
+    --no-editor      Skip opening the editor
     --no-terminal    Skip opening the terminal
     --no-finder      Skip opening Finder
-    --no-editor      Skip opening the editor
 ```
 
 
