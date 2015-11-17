@@ -37,16 +37,16 @@ Options:
 
 ## To-Do
 
-- Set up config file (default)
-    - Default tasks to run (???)
-    - Editor (Sublime Text)
-    - Terminal (iTerm)
-    - Base destination for project folder (/www/sites)
-- Open 2 new terminal windows: project root and the theme (2 project roots if it's a patternlab)
-- Run `grunt bs` to start BrowserSync
+- ~~Set up config file (default)~~
+    - ~~Default tasks to run (editor,terminal,finder)~~
+    - ~~Editor (Sublime Text)~~
+    - ~~Terminal (iTerm)~~
+    - ~~Base destination for project folder (/www/sites)~~
+- Open 2 new terminal windows: project root and the theme _(2 project roots if it's a patternlab)_
 - Open the root of the project in an editor
 - Open a finder window at the root of the project
 - Make is so you can have a config file for individual projects
+    - Ability to run Grunt tasks _(BrowserSync)_
 
 
 ## License

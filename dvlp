@@ -110,6 +110,24 @@ dvlp_init() {
 
         # TODO
         # echo initial config here
+cat > $DVLP_CONFIG <<EOF
+# Default tasks to run
+# Be sure to separate each task with a comma
+# Options: "editor,terminal,finder"
+DEFAULT_TASKS="editor,terminal,finder"
+
+# Editor of choice
+# Options: "sublime, atom, brackets, textmate, coda"
+DEFAULT_EDITOR="sublime"
+
+# Terminal of choice
+# Options: "iterm, terminal"
+DEFAULT_TERMINAL="iterm"
+
+# Project folder
+# Where are your project folders located?
+PROJECT_FOLDER="/www/sites/"
+EOF
     fi
 }
 
