@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+
+#  dvlp
+#  A command line tool for easily getting started on projects.
+#  Copyright (C) Kyle Brumm <http://kylebrumm.com>
+
+# -------------------------------------------------------
+# DVLP VARIABLES
+# -------------------------------------------------------
+
+RED=$(tput setaf 1);
+GREEN=$(tput setaf 2);
+YELLOW=$(tput setaf 3);
+WHITE=$(tput setaf 7);
+RESET=$(tput sgr0);
+
+
+DVLP_DIR="$HOME/.dvlp"
+DVLP_CONFIG="$DVLP_DIR/config.cfg"
+
+# Display help information
+dvlp_help() {
+cat <<EOF
+
+dvlp
+
+A command line tool for easily getting started on projects.
+
+Usage:
+    dvlp <project>
+
+Tasks:
+    <project>        The name of the project you want to setup
+    init             Initialize the project config
+    --no-bs          Skip running BrowserSync
+    --no-terminal    Skip opening the terminal
+    --no-finder      Skip opening Finder
+    --no-editor      Skip opening the editor
+
+EOF
+exit;
+}
+
+# Source the config file
+if [ -f "$DVLP_CONFIG" ]; then
+    source $DVLP_CONFIG
+fi
+
+# Check if help info should be displayed
+if [ "$1" = "-h" -o "$1" = "--help" -o -z "$1" ]; then
+    dvlp_help;
+fi
+
+
+
+# -------------------------------------------------------
+# DVLP HELPER FUNCTIONS
+# -------------------------------------------------------
+
+# Throw an error
+error() {
+    i=0
+    while [ "$i" -lt "$2" ]; do
+        printf "    "
+        i=$[$i+1]
+    done
+    printf "${RED}Error:${WHITE} ${1}\n"
+    exit
+}
+
+is_setup() {
+    [ -d "$DVLP_DIR" -o -f "$DVLP_CONFIG" ]
+}
+
+# Check if the setup task has been run
+check_setup() {
+    if ! is_setup; then
+        error "You need to run 'dvlp init' before you can do anything else..." 0
+    fi
+}
+
+
+
+# -------------------------------------------------------
+# DVLP TASKS
+# -------------------------------------------------------
+
+# INIT: Handle setting up project
+dvlp_init() {
+    printf "${GREEN}==> Init${WHITE}\n"
+
+    if is_setup; then
+        error "You have already run the setup task." 1
+    fi
+
+    # Create directory if it doesn't exist
+    if [ ! -d "$DVLP_DIR" ]; then
+        printf "    ${GREEN}Creating directory:${WHITE} $DVLP_DIR\n"
+        mkdir $DVLP_DIR
+    fi
+
+    # Create config file if it doesn't exist
+    if [ ! -f "$DVLP_CONFIG" ]; then
+        printf "    ${GREEN}Creating config file:${WHITE} $DVLP_CONFIG\n"
+        touch $DVLP_CONFIG
+
+        # TODO
+        # echo initial config here
+    fi
+}
+
+
+
+# -------------------------------------------------------
+# DVLP INITIALIZATION
+# -------------------------------------------------------
+
+check_setup
+
+# See what task we need to run
+case "$1" in
+    init)   dvlp_init;;
+    *)      printf "${RED}Error:${WHITE} Illegal task -- $1 (see \"dvlp --help\" for help)\n";;
+esac
