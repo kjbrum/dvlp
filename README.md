@@ -46,6 +46,8 @@ Options:
 - Open a finder window at the root of the project
 - Make is so you can have a config file for individual projects
     - Ability to run Grunt tasks _(BrowserSync)_
+- Add a better description of what the tool does
+- Take a screencast of actually using it
 
 
 ## License
