@@ -42,6 +42,7 @@ Tasks:
 - Run `grunt bs` to start BrowserSync
 - Open the root of the project in an editor
 - Open a finder window at the root of the project
+- Make is so you can have a config file for individual projects
 
 
 ## License
