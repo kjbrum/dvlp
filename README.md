@@ -14,16 +14,20 @@ $ chmod +x ~/bin/dvlp
 ## Usage
 
 ```
-dvlp
+dvlp - v0.0.1
 
-A command line tool for easily getting started on projects.
+A command line tool for easily getting started on projects
 
 Usage:
     dvlp <project>
 
 Tasks:
-    <project>        The name of the project you want to setup
     init             Initialize the project config
+    version          Display the current version
+    cleanup          Cleanup config files
+    <project>        The name of the project you want to setup
+
+Options:
     --no-bs          Skip running BrowserSync
     --no-terminal    Skip opening the terminal
     --no-finder      Skip opening Finder
