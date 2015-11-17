@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#  dvlp
+#  dvlp - v0.0.1
 #  A command line tool for easily getting started on projects.
 #  Copyright (C) Kyle Brumm <http://kylebrumm.com>
 
@@ -8,6 +8,7 @@
 # DVLP VARIABLES
 # -------------------------------------------------------
 
+VERSION="0.0.1"
 RED=$(tput setaf 1);
 GREEN=$(tput setaf 2);
 YELLOW=$(tput setaf 3);
@@ -22,7 +23,7 @@ DVLP_CONFIG="$DVLP_DIR/config.cfg"
 dvlp_help() {
 cat <<EOF
 
-dvlp
+dvlp - v${VERSION}
 
 A command line tool for easily getting started on projects
 
@@ -86,6 +87,11 @@ check_setup() {
 # DVLP TASKS
 # -------------------------------------------------------
 
+# VERSION: Print the version
+dvlp_version() {
+    printf "v$VERSION\n"
+}
+
 # INIT: Handle setting up project
 dvlp_init() {
     printf "${GREEN}==> Init${WHITE}\n"
@@ -125,7 +131,8 @@ check_setup "$1"
 
 # See what task we need to run
 case "$1" in
-    init)   dvlp_init;;
-    list)   dvlp_list;;
-    *)      printf "${RED}Error:${WHITE} Illegal task -- $1 (see \"dvlp --help\" for help)\n";;
+    init)                 dvlp_init "$@";;
+    version|--version)    dvlp_version;;
+    list)                 dvlp_list "$@";;
+    *)                    printf "${RED}Error:${WHITE} Illegal task -- $1 (see \"dvlp --help\" for help)\n";;
 esac
