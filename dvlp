@@ -27,38 +27,6 @@ else
     is_setup=false
 fi
 
-# Display help information
-dvlp_help() {
-cat <<EOF
-
-dvlp - v${VERSION}
-
-A command line tool for easily getting started on projects
-
-Usage:
-    dvlp <project>
-
-Tasks:
-    init             Initialize the project config
-    version          Display the current version
-    cleanup          Cleanup config files
-    <project>        The name of the project you want to setup
-
-Options:
-    --no-bs          Skip running BrowserSync
-    --no-terminal    Skip opening the terminal
-    --no-finder      Skip opening Finder
-    --no-editor      Skip opening the editor
-
-EOF
-exit;
-}
-
-# Check if help info should be displayed
-if [ "$1" = "-h" -o "$1" = "--help" -o -z "$1" ]; then
-    dvlp_help;
-fi
-
 
 
 # -------------------------------------------------------
@@ -88,6 +56,33 @@ check_setup() {
 # -------------------------------------------------------
 # DVLP TASKS
 # -------------------------------------------------------
+
+# HELP: Display the help information
+dvlp_help() {
+cat <<EOF
+
+dvlp - v${VERSION}
+
+A command line tool for easily getting started on projects
+
+Usage:
+    dvlp <project>
+
+Tasks:
+    init             Initialize the project config
+    version          Display the current version
+    cleanup          Cleanup config files
+    <project>        The name of the project you want to setup
+
+Options:
+    --no-bs          Skip running BrowserSync
+    --no-terminal    Skip opening the terminal
+    --no-finder      Skip opening Finder
+    --no-editor      Skip opening the editor
+
+EOF
+exit;
+}
 
 # VERSION: Display the current version
 dvlp_version() {
@@ -146,6 +141,11 @@ dvlp_list() {
 # -------------------------------------------------------
 # DVLP INITIALIZATION
 # -------------------------------------------------------
+
+# Check if help info should be displayed
+if [ "$1" = "-h" -o "$1" = "--help" -o -z "$1" ]; then
+    dvlp_help;
+fi
 
 # Check if the necessary files are set up
 check_setup "$1"
