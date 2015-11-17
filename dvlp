@@ -68,11 +68,12 @@ error() {
     exit
 }
 
+# Check if the folder and config file are set up
 is_setup() {
     [ -d "$DVLP_DIR" -o -f "$DVLP_CONFIG" ]
 }
 
-# Check if the setup task has been run
+# Check if the init task has been run
 check_setup() {
     if [ ! is_setup -a "$1" != "init" ]; then
         error "You need to run \"dvlp init\" to get things set up." 0
