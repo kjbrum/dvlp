@@ -148,6 +148,11 @@ dvlp_cleanup() {
 
 }
 
+# START: Set up a project
+dvlp_start() {
+    printf "${GREEN}==> Start project $2${WHITE}\n"
+}
+
 # LIST: List all possible projects
 dvlp_list() {
     printf "${GREEN}==> List${WHITE}\n"
@@ -172,6 +177,7 @@ case "$1" in
     version)    dvlp_version;;
     init)       dvlp_init "$@";;
     cleanup)    dvlp_cleanup;;
+    start)      dvlp_start "$@";;
     list)       dvlp_list "$@";;
     *)          printf "${RED}Error:${WHITE} Illegal task -- $1 (see \"dvlp --help\" for help)\n";;
 esac
