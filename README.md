@@ -48,6 +48,7 @@ Options:
     - Ability to run Grunt tasks _(BrowserSync)_
 - Add a better description of what the tool does
 - Take a screencast of actually using it
+- Add an `update` task for getting the most recent version
 
 
 ## License

@@ -16,7 +16,7 @@ WHITE=$(tput setaf 7);
 RESET=$(tput sgr0);
 
 DVLP_DIR="$HOME/.dvlp"
-DVLP_CONFIG="$DVLP_DIR/config.cfg"
+DVLP_CONFIG="$DVLP_DIR/config"
 
 if [ -f "$DVLP_CONFIG" ]; then
     is_setup=true
