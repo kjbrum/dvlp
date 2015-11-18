@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #  dvlp - v0.0.1
-#  A command line tool for easily getting started on projects.
+#  A command line tool for managing local projects.
 #  Copyright (C) Kyle Brumm <http://kylebrumm.com>
 
 # -------------------------------------------------------
@@ -63,7 +63,7 @@ cat <<EOF
 
 dvlp - v${VERSION}
 
-A command line tool for easily getting started on projects
+A command line tool for managing local projects.
 
 Usage:
     dvlp init
