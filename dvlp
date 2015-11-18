@@ -66,13 +66,16 @@ dvlp - v${VERSION}
 A command line tool for easily getting started on projects
 
 Usage:
-    dvlp <project>
+    dvlp init
+    dvlp start <project>
 
 Tasks:
-    init             Initialize the project config
     version          Display the current version
+    init             Set up the project files
     cleanup          Cleanup config files
-    <project>        Name of the project you want to work on
+    start            Set up a project
+        <project>    Name of the project you want to work on
+    list             List all available projects
 
 Options:
     --no-editor      Skip opening the editor
@@ -107,8 +110,6 @@ dvlp_init() {
         printf "    ${GREEN}Creating config file:${WHITE} $DVLP_CONFIG\n"
         touch $DVLP_CONFIG
 
-        # TODO
-        # echo initial config here
 cat > $DVLP_CONFIG <<EOF
 # Default tasks to run
 # Be sure to separate each task with a comma
@@ -153,7 +154,7 @@ dvlp_start() {
     printf "${GREEN}==> Start project $2${WHITE}\n"
 }
 
-# LIST: List all possible projects
+# LIST: List all available projects
 dvlp_list() {
     printf "${GREEN}==> List${WHITE}\n"
 }

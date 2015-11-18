@@ -19,13 +19,16 @@ dvlp - v0.0.1
 A command line tool for easily getting started on projects
 
 Usage:
-    dvlp <project>
+    dvlp init
+    dvlp start <project>
 
 Tasks:
-    init             Initialize the project config
     version          Display the current version
+    init             Set up the project files
     cleanup          Cleanup config files
-    <project>        Name of the project you want to work on
+    start            Set up a project
+        <project>    Name of the project you want to work on
+    list             List all available projects
 
 Options:
     --no-editor      Skip opening the editor
