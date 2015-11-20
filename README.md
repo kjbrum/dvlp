@@ -16,24 +16,20 @@ $ chmod +x ~/bin/dvlp
 ```
 dvlp - v0.0.1
 
-A command line tool for easily getting started on projects
+A command line tool for managing local projects.
 
 Usage:
     dvlp init
     dvlp start <project>
 
 Tasks:
-    version          Display the current version
     init             Set up the project files
-    cleanup          Cleanup config files
     start            Set up a project
         <project>    Name of the project you want to work on
     list             List all available projects
-
-Options:
-    --no-editor      Skip opening the editor
-    --no-terminal    Skip opening the terminal
-    --no-finder      Skip opening Finder
+    update           Download the latest version of dvlp
+    version          Display the current version
+    cleanup          Remove all the config files
 ```
 
 
