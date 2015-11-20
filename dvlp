@@ -159,7 +159,6 @@ dvlp_cleanup() {
                 break;;
         esac
     done
-
 }
 
 # START: Set up a project
@@ -173,11 +172,11 @@ dvlp_start() {
 
     # Creates a new tab, print working directory, split it in half, and run grunt
     osascript -e '
-        activate application "iterm"
+        activate application "'$DEFAULT_TERMINAL'"
         tell application "System Events" to keystroke "t" using command down
-        tell application "iterm" to tell session -1 of current terminal to write text "pwd"
+        tell application "'$DEFAULT_TERMINAL'" to tell session -1 of current terminal to write text "pwd"
         tell application "System Events" to keystroke "d" using {command down, shift down}
-        tell application "iterm" to tell session -1 of current terminal to write text "grunt"
+        tell application "'$DEFAULT_TERMINAL'" to tell session -1 of current terminal to write text "grunt"
     '
 }
 
