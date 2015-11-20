@@ -168,6 +168,9 @@ dvlp_start() {
 
     echo "Project Directory = $PROJECT_DIR/$2"
 
+    # TODO
+    # Get the list of tasks to run, and do it
+
     # Creates a new tab, print working directory, split it in half, and run grunt
     osascript -e '
         activate application "iterm"
@@ -181,6 +184,9 @@ dvlp_start() {
 # LIST: List all available projects
 dvlp_list() {
     printf "${GREEN}==> List${WHITE}\n"
+
+    # TODO
+    # List all the current project configurations
 }
 
 
