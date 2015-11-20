@@ -49,7 +49,7 @@ strip_trailing_slash() {
         result=$(echo "$1" | rev | cut -c 2- | rev)
     fi
 
-    echo $result
+    echo "$result"
 }
 
 
@@ -124,12 +124,14 @@ DVLP_TERMINAL="iterm"
 DVLP_PROJECT_DIR="/www/sites/"
 EOF
     fi
+
+    printf "\n${YELLOW}Be sure to set up the default config file at \"$DVLP_CONFIG\"\n"
 }
 
 # CLEANUP: Cleanup config files
 dvlp_cleanup() {
     while true; do
-        echo "This will remove all configuration files."
+        printf "This will remove all configuration files.\n"
         read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
         printf "${GREEN}==> Cleanup${WHITE}\n"
         case $cleanup in
