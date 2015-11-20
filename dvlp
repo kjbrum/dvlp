@@ -18,15 +18,6 @@ RESET=$(tput sgr0);
 DVLP_DIR="$HOME/.dvlp"
 DVLP_CONFIG="$DVLP_DIR/config"
 
-if [ -f "$DVLP_CONFIG" ]; then
-    is_setup=true
-
-    # Source the config file
-    source $DVLP_CONFIG
-else
-    is_setup=false
-fi
-
 
 
 # -------------------------------------------------------
@@ -50,6 +41,28 @@ check_setup() {
         error "You need to run \"dvlp init\" to get things set up." 0
     fi
 }
+
+strip_trailing_slash() {
+    result="$1"
+
+    if [[ "$1" == */ ]]; then
+        result=$(echo "$1" | rev | cut -c 2- | rev)
+    fi
+
+    echo $result
+}
+
+if [ -f "$DVLP_CONFIG" ]; then
+    is_setup=true
+
+    # Source the config file
+    source $DVLP_CONFIG
+
+    # Remove the trailing slash from the PROJECT_DIR variable
+    PROJECT_DIR=$(strip_trailing_slash $PROJECT_DIR)
+else
+    is_setup=false
+fi
 
 
 
@@ -126,7 +139,7 @@ DEFAULT_TERMINAL="iterm"
 
 # Project folder
 # Where are your project folders located?
-PROJECT_FOLDER="/www/sites/"
+PROJECT_DIR="/www/sites/"
 EOF
     fi
 }
@@ -152,6 +165,17 @@ dvlp_cleanup() {
 # START: Set up a project
 dvlp_start() {
     printf "${GREEN}==> Start project $2${WHITE}\n"
+
+    echo "Project Directory = $PROJECT_DIR/$2"
+
+    # Creates a new tab, print working directory, split it in half, and run grunt
+    osascript -e '
+        activate application "iterm"
+        tell application "System Events" to keystroke "t" using command down
+        tell application "iterm" to tell session -1 of current terminal to write text "pwd"
+        tell application "System Events" to keystroke "d" using {command down, shift down}
+        tell application "iterm" to tell session -1 of current terminal to write text "grunt"
+    '
 }
 
 # LIST: List all available projects
