@@ -91,15 +91,24 @@ __Default:__ /www/sites/
     - ~~Editor (Sublime Text)~~
     - ~~Terminal (iTerm)~~
     - ~~Base destination for project folder (/www/sites)~~
-- Open 2 new terminal windows: project root and the theme _(2 project roots if it's a patternlab)_
-    - Allow specific settings "new tab,split right 'content/themes/theme-name,split bottom" (https://iterm2.com/applescript.html)
-- Open the root of the project in an editor
-- Open a finder window at the root of the project
-- Make is so you can have a config file for individual projects
-    - Ability to run Grunt tasks _(BrowserSync)_
-- Add a better description of what the tool does
-- Take a screencast of actually using it
+- Handle many different tasks
+    - Terminal
+        - new <tab,window> _(opens a new window/tab)_
+        - split <top,right,bottom,left> _(splits a pane)_
+    - Editor
+        - editor "/www/sites/project/content/themes/theme-name" _(opens file/folder in an editor)_
+    - Finder
+        - open "/www/sites/project" _(opens file/folder in Finder)_
+    - Build Tools
+        - <grunt,gulp,npm> "task to run" _(run a build tool task)_
+- Config file for individual projects with a default fallback
+    - Default tasks, editor, and terminal
+- Add more information to README
+    - Default config file
+    - Project config files
+- Add Bash autocomplete
 - Add an `update` task for downloading the most recent version
+- Take a screencast of actually using it
 
 
 ## License
