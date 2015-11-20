@@ -45,29 +45,17 @@ check_setup() {
 strip_trailing_slash() {
     result="$1"
 
-    if [[ "$1" == */ ]]; then
+    if [ "$1" == */ ]; then
         result=$(echo "$1" | rev | cut -c 2- | rev)
     fi
 
     echo $result
 }
 
-if [ -f "$DVLP_CONFIG" ]; then
-    is_setup=true
-
-    # Source the config file
-    source $DVLP_CONFIG
-
-    # Remove the trailing slash from the PROJECT_DIR variable
-    PROJECT_DIR=$(strip_trailing_slash $PROJECT_DIR)
-else
-    is_setup=false
-fi
-
 
 
 # -------------------------------------------------------
-# DVLP TASKS
+# DVLP COMMANDS
 # -------------------------------------------------------
 
 # HELP: Display the help information
@@ -147,11 +135,12 @@ EOF
 # CLEANUP: Cleanup config files
 dvlp_cleanup() {
     while true; do
-        read -ep "This will remove all configuration files. Are you sure you want to run the cleanup? (y/N): " cleanup
+        echo "This will remove all configuration files."
+        read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
         printf "${GREEN}==> Cleanup${WHITE}\n"
         case $cleanup in
             [Yy]* )
-                printf "    ${GREEN}Removing configuration files...${WHITE}\n"
+                printf "    ${YELLOW}Removing configuration files...${WHITE}\n"
                 rm -rf $DVLP_DIR
                 break;;
             * )
@@ -198,9 +187,23 @@ if [ "$1" = "-h" -o "$1" = "--help" -o -z "$1" ]; then
 fi
 
 # Check if the necessary files are set up
-check_setup "$1"
+if [ -f "$DVLP_CONFIG" ]; then
+    is_setup=true
 
-# See what task we need to run
+    # Source the config file
+    source $DVLP_CONFIG
+
+    # Remove the trailing slash from the PROJECT_DIR variable
+    PROJECT_DIR=$(strip_trailing_slash $PROJECT_DIR)
+else
+    is_setup=false
+
+    if [ "$1" != "init" -a "$1" != "version" ]; then
+        error "You need to run \"dvlp init\" to get things set up." 0
+    fi
+fi
+
+# See what command we need to run
 case "$1" in
     version)    dvlp_version;;
     init)       dvlp_init "$@";;
