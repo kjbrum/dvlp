@@ -37,6 +37,53 @@ Options:
 ```
 
 
+## Config
+
+#### DEFAULT_TASKS
+
+The default tasks to run for a project. _(Be sure to separate each task with a comma)_
+
+__Default:__ editor, terminal, finder
+
+__Options:__
+
+- editor
+- terminal
+- finder
+
+#### DEFAULT_EDITOR
+
+The default text editor application.
+
+__Default:__ sublime
+
+__Options:__
+
+- sublime
+- atom
+- brackets
+- textmate
+- coda
+
+
+#### DEFAULT_TERMINAL
+
+The default terminal application.
+
+__Default:__ iterm
+
+__Options:__
+
+- iterm
+- terminal
+
+#### PROJECT_DIR
+
+The folder your local projects are in.
+
+__Default:__ /www/sites/
+
+
 ## To-Do
 
 - ~~Set up config file (default)~~
