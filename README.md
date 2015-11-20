@@ -45,6 +45,7 @@ Options:
     - ~~Terminal (iTerm)~~
     - ~~Base destination for project folder (/www/sites)~~
 - Open 2 new terminal windows: project root and the theme _(2 project roots if it's a patternlab)_
+    - Allow specific settings "new tab,split right 'content/themes/theme-name,split bottom" (https://iterm2.com/applescript.html)
 - Open the root of the project in an editor
 - Open a finder window at the root of the project
 - Make is so you can have a config file for individual projects
