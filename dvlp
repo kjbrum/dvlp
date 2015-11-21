@@ -155,13 +155,17 @@ dvlp_start() {
     # Get project specific config
     setup_project_config $project
 
-    # TODO
-    # 1. Parse the tasks
-    # 2. Loop through the tasks and perform the necessary command
+    echo "Tasks: $DVLP_TASKS"
+    echo "Editor: $DVLP_EDITOR"
+    echo "Terminal: $DVLP_TERMINAL"
 
-    echo $DVLP_TASKS
-    echo $DVLP_EDITOR
-    echo $DVLP_TERMINAL
+    # Parse and loop through the list of tasks
+    IFS=',' read -ra TASKS <<< "$DVLP_TASKS"
+    for t in "${TASKS[@]}"; do
+        # TODO
+        # Perform the necessary command
+        echo "$t"
+    done
 
     # Create a new tab, print working directory, split it in half, run grunt
     # osascript -e '
