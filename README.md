@@ -96,6 +96,7 @@ __Default:__ /www/sites/
     - Default config file
     - Project config files
 - Add Bash autocomplete
+- Prompt the user to enter a new projects config values
 - Add an `update` task for downloading the most recent version
 - Take a screencast of actually using it
 - ~~Set up config file (default)~~
