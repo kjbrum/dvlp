@@ -35,13 +35,6 @@ error() {
     exit
 }
 
-# Check if the init task has been run
-check_setup() {
-    if [ "$is_setup" != true -a "$1" != "init" -a "$1" != "version" ]; then
-        error "You need to run \"dvlp init\" to get things set up." 0
-    fi
-}
-
 strip_trailing_slash() {
     result="$1"
 
@@ -52,6 +45,13 @@ strip_trailing_slash() {
     echo "$result"
 }
 
+# Set up the necessary config variables
+setup_project_config() {
+    if [ -f "$DVLP_DIR/$1" ]; then
+        # Source the project config file
+        source "$DVLP_DIR/$1"
+    fi
+}
 
 
 # -------------------------------------------------------
@@ -148,19 +148,28 @@ dvlp_cleanup() {
 
 # START: Set up a project
 dvlp_start() {
-    printf "${GREEN}==> Start project $2${WHITE}\n"
+    project="$2"
+    printf "${GREEN}==> Start project $project${WHITE}\n"
+
+    # Get project specific config
+    setup_project_config $project
 
     # TODO
-    # Get settings from the project or default config file
+    # 1. Parse the tasks
+    # 2. Loop through the tasks and perform the necessary command
+
+    echo $DVLP_TASKS
+    echo $DVLP_EDITOR
+    echo $DVLP_TERMINAL
 
     # Create a new tab, print working directory, split it in half, run grunt
-    osascript -e '
-        activate application "'$DEFAULT_TERMINAL'"
-        tell application "System Events" to keystroke "t" using command down
-        tell application "'$DEFAULT_TERMINAL'" to tell session -1 of current terminal to write text "pwd"
-        tell application "System Events" to keystroke "d" using {command down, shift down}
-        tell application "'$DEFAULT_TERMINAL'" to tell session -1 of current terminal to write text "grunt"
-    '
+    # osascript -e '
+    #     activate application "'$DEFAULT_TERMINAL'"
+    #     tell application "System Events" to keystroke "t" using command down
+    #     tell application "'$DEFAULT_TERMINAL'" to tell session -1 of current terminal to write text "pwd"
+    #     tell application "System Events" to keystroke "d" using {command down, shift down}
+    #     tell application "'$DEFAULT_TERMINAL'" to tell session -1 of current terminal to write text "grunt"
+    # '
 }
 
 # LIST: List all available projects
@@ -187,10 +196,10 @@ if [ -f "$DVLP_CONFIG" ]; then
     is_setup=true
 
     # Source the config file
-    source $DVLP_CONFIG
+    source "$DVLP_CONFIG"
 
     # Remove the trailing slash from the DVLP_PROJECT_DIR variable
-    DVLP_PROJECT_DIR=$(strip_trailing_slash $DVLP_PROJECT_DIR)
+    DVLP_PROJECT_DIR=$(strip_trailing_slash "$DVLP_PROJECT_DIR")
 else
     is_setup=false
 
