@@ -82,29 +82,29 @@ __Default:__ /www/sites/
 
 ## To-Do
 
-- ~~Set up config file (default)~~
-    - ~~Default tasks to run (editor,terminal,finder)~~
-    - ~~Editor (Sublime Text)~~
-    - ~~Terminal (iTerm)~~
-    - ~~Base destination for project folder (/www/sites)~~
 - Handle many different tasks
     - Terminal
-        - new <tab,window> _(opens a new window/tab)_
-        - split <top,right,bottom,left> _(splits a pane)_
+        - new [tab,window] _(opens a new window/tab)_
+        - split [top,right,bottom,left] _(splits a pane)_
     - Editor
         - editor "/www/sites/project/content/themes/theme-name" _(opens file/folder in an editor)_
     - Finder
         - open "/www/sites/project" _(opens file/folder in Finder)_
     - Build Tools
-        - <grunt,gulp,npm> "task to run" _(run a build tool task)_
-- Config file for individual projects with a default fallback
-    - Default tasks, editor, and terminal
+        - [grunt,gulp,npm] "task to run" _(run a build tool task)_
 - Add more information to README
     - Default config file
     - Project config files
 - Add Bash autocomplete
 - Add an `update` task for downloading the most recent version
 - Take a screencast of actually using it
+- ~~Set up config file (default)~~
+    - ~~Default tasks to run (editor,terminal,finder)~~
+    - ~~Editor (Sublime Text)~~
+    - ~~Terminal (iTerm)~~
+    - ~~Base destination for project folder (/www/sites)~~
+- ~~Config file for individual projects with a default fallback~~
+    - ~~Default tasks, editor, and terminal~~
 
 
 ## License
