@@ -23,13 +23,13 @@ Usage:
     dvlp start <project>
 
 Tasks:
+    cleanup          Remove all the config files
     init             Set up the project files
+    list             List all available projects
     start            Set up a project
         <project>    Name of the project you want to work on
-    list             List all available projects
     update           Download the latest version of dvlp
     version          Display the current version
-    cleanup          Remove all the config files
 ```
 
 
