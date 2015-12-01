@@ -15,9 +15,10 @@ YELLOW=$(tput setaf 3);
 WHITE=$(tput setaf 7);
 RESET=$(tput sgr0);
 
+DVLP_INSTALL_PATH="${BASH_SOURCE[0]}"
+DVLP_INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DVLP_DIR="$HOME/.dvlp"
 DVLP_CONFIG="$DVLP_DIR/config"
-
 
 
 # -------------------------------------------------------
@@ -38,7 +39,7 @@ error() {
 strip_trailing_slash() {
     result="$1"
 
-    if [ "$1" == */ ]; then
+    if [[ "$1" == */ ]]; then
         result=$(echo "$1" | rev | cut -c 2- | rev)
     fi
 
@@ -185,6 +186,30 @@ dvlp_list() {
     # List all the current project configurations
 }
 
+# UPDATE: Update to the latest version of dvlp
+dvlp_update() {
+    while true; do
+        read -ep "Are you sure you want to update dvlp? (y/N): " update
+        printf "${GREEN}==> Update${WHITE}\n"
+        case $update in
+            [Yy]* )
+                # Remove the old script
+                printf "    ${YELLOW}Removing old script at \"$DVLP_INSTALL_PATH\"...${WHITE}\n"
+                rm $DVLP_INSTALL_PATH
+
+                # Download the new script
+                printf "    ${YELLOW}Downloading new script to \"$DVLP_INSTALL_DIR/dvlp\"...${WHITE}\n"
+                curl https://raw.githubusercontent.com/kjbrum/dvlp/master/dvlp > $DVLP_INSTALL_DIR/dvlp
+                chmod +x $DVLP_INSTALL_DIR/dvlp
+
+                break;;
+            * )
+                printf "    ${YELLOW}Skipping update...${WHITE}\n"
+                break;;
+        esac
+    done
+}
+
 
 
 # -------------------------------------------------------
@@ -215,10 +240,11 @@ fi
 
 # See what command we need to run
 case "$1" in
-    version)    dvlp_version;;
-    init)       dvlp_init "$@";;
     cleanup)    dvlp_cleanup;;
-    start)      dvlp_start "$@";;
+    init)       dvlp_init "$@";;
     list)       dvlp_list "$@";;
+    start)      dvlp_start "$@";;
+    update)     dvlp_update;;
+    version)    dvlp_version;;
     *)          printf "${RED}Error:${WHITE} Illegal task -- $1 (see \"dvlp --help\" for help)\n";;
 esac
