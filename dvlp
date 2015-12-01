@@ -51,8 +51,8 @@ strip_trailing_slash() {
 
 # Set up the necessary config variables
 setup_project_config() {
+    # Source the project config file if it exists
     if [ -f "$DVLP_DIR/$1" ]; then
-        # Source the project config file
         source "$DVLP_DIR/$1"
     fi
 }

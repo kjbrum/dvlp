@@ -94,7 +94,12 @@ __Default:__
 
 
 ## To-Do
-
+- Get the base tasks working
+    - editor
+    - terminal
+        - new [tab|window]
+        - split [vertical|horizontal]
+    - finder
 - Add support for additional tasks
     - Build Tools
         - [grunt|gulp|npm] "task to run" _(run a build tool task)_
@@ -106,11 +111,10 @@ __Default:__
     - coda
 - Add support for additional terminals
     - terminal
+- Add Bash autocomplete
 - Add more information to README
     - Default config file
     - Project config files
-- Add Bash autocomplete
-- Prompt the user to enter a new projects config values
 - Take a screencast of actually using it
 - ~~Add an `update` task for downloading the most recent version~~
 - ~~Set up config file (default)~~
