@@ -98,12 +98,12 @@ dvlp_init() {
     printf "${GREEN}==> Init${WHITE}\n"
 
     if [ $is_setup = true ]; then
-        error "You have already run the setup task." 1
+        error "You have already run the setup task." 0
     fi
 
     # Create directory if it doesn't exist
     if [ ! -d "$DVLP_DIR" ]; then
-        printf "    ${GREEN}Creating directory:${WHITE} $DVLP_DIR\n"
+        printf "${GREEN}Creating directory:${WHITE} $DVLP_DIR\n"
         mkdir $DVLP_DIR
     fi
 
@@ -170,11 +170,11 @@ dvlp_cleanup() {
     printf "${GREEN}==> Cleanup${WHITE}\n"
     case $cleanup in
         [Yy]* )
-            printf "    ${YELLOW}Removing configuration files...${WHITE}\n"
+            printf "${YELLOW}Removing configuration files...${WHITE}\n"
             rm -rf $DVLP_DIR
             ;;
         * )
-            printf "    ${YELLOW}Skipping cleanup...${WHITE}\n"
+            printf "${YELLOW}Skipping cleanup...${WHITE}\n"
             ;;
     esac
 }
@@ -224,7 +224,7 @@ dvlp_update() {
     case $update in
         [Yy]* )
             # Remove the old script
-            printf "    ${YELLOW}Removing old script at \"$DVLP_INSTALL_PATH\"...${WHITE}\n"
+            printf "${YELLOW}Removing old script at \"$DVLP_INSTALL_PATH\"...${WHITE}\n"
             rm $DVLP_INSTALL_PATH
 
             # Download the new script
@@ -233,7 +233,7 @@ dvlp_update() {
             chmod +x $DVLP_INSTALL_DIR/dvlp
             ;;
         * )
-            printf "    ${YELLOW}Skipping update...${WHITE}\n"
+            printf "${YELLOW}Skipping update...${WHITE}\n"
             ;;
     esac
 }
