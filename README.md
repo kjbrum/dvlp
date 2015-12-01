@@ -105,8 +105,8 @@ __Default:__
     - Project config files
 - Add Bash autocomplete
 - Prompt the user to enter a new projects config values
-- Add an `update` task for downloading the most recent version
 - Take a screencast of actually using it
+- ~~Add an `update` task for downloading the most recent version~~
 - ~~Set up config file (default)~~
     - ~~Default tasks to run (editor,terminal,finder)~~
     - ~~Editor (Sublime Text)~~
