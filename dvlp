@@ -4,6 +4,8 @@
 #  A command line tool for managing local projects.
 #  Copyright (C) Kyle Brumm <http://kylebrumm.com>
 
+
+
 # -------------------------------------------------------
 # DVLP VARIABLES
 # -------------------------------------------------------
@@ -19,6 +21,7 @@ DVLP_INSTALL_PATH="${BASH_SOURCE[0]}"
 DVLP_INSTALL_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 DVLP_DIR="$HOME/.dvlp"
 DVLP_CONFIG="$DVLP_DIR/config"
+
 
 
 # -------------------------------------------------------
@@ -53,6 +56,7 @@ setup_project_config() {
         source "$DVLP_DIR/$1"
     fi
 }
+
 
 
 # -------------------------------------------------------
@@ -105,47 +109,74 @@ dvlp_init() {
 
     # Create config file if it doesn't exist
     if [ ! -f "$DVLP_CONFIG" ]; then
-        printf "    ${GREEN}Creating config file:${WHITE} $DVLP_CONFIG\n"
-        touch $DVLP_CONFIG
+        read -ep "DVLP_TASKS: (editor,terminal,finder) " tasks
+        [ -z "$tasks" ] && tasks="editor,terminal,finder"
 
+        read -ep "DVLP_EDITOR: (sublime) " editor
+        [ -z "$editor" ] && editor="sublime"
+
+        read -ep "DVLP_TERMINAL: (iterm) " terminal
+        [ -z "$terminal" ] && terminal="iterm"
+
+        read -ep "DVLP_PROJECT_DIR: (/www/sites/) " project_dir
+        [ -z "$project_dir" ] && project_dir="/www/sites/"
+
+        # Verify the users input
+        printf "\n"
+        printf "The following will be written to $DVLP_CONFIG:\n"
+        printf "DVLP_TASKS=\"$tasks\"\n"
+        printf "DVLP_EDITOR=\"$editor\"\n"
+        printf "DVLP_TERMINAL=\"$terminal\"\n"
+        printf "DVLP_PROJECT_DIR=\"$project_dir\"\n"
+        printf "\n"
+
+        # Confirm
+        read -ep "Everything look good? (Y/n): " good_to_go
+        case $good_to_go in
+            [Nn]* )
+                printf "${YELLOW}Skipping default config setup...${WHITE}\n"
+                ;;
+            * )
+                printf "${GREEN}Creating config file:${WHITE} $DVLP_CONFIG\n"
+                touch $DVLP_CONFIG
 cat > $DVLP_CONFIG <<EOF
 # Default Tasks
 # Be sure to separate each task with a comma
-DVLP_TASKS="editor,terminal,finder"
+DVLP_TASKS="$tasks"
 
 # Default Editor
 # Options: "sublime, atom, brackets, textmate, coda"
-DVLP_EDITOR="sublime"
+DVLP_EDITOR="$editor"
 
 # Default Terminal
 # Options: "iterm, terminal"
-DVLP_TERMINAL="iterm"
+DVLP_TERMINAL="$terminal"
 
 # Projects Directory
 # The folder your local projects are in.
-DVLP_PROJECT_DIR="/www/sites/"
+DVLP_PROJECT_DIR="$project_dir"
 EOF
+                ;;
+        esac
     fi
 
-    printf "\n${YELLOW}Be sure to set up the default config file at \"$DVLP_CONFIG\"\n"
+    printf "\n${YELLOW}The default config file can be modified at \"$DVLP_CONFIG\"\n"
 }
 
 # CLEANUP: Cleanup config files
 dvlp_cleanup() {
-    while true; do
-        printf "This will remove all configuration files.\n"
-        read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
-        printf "${GREEN}==> Cleanup${WHITE}\n"
-        case $cleanup in
-            [Yy]* )
-                printf "    ${YELLOW}Removing configuration files...${WHITE}\n"
-                rm -rf $DVLP_DIR
-                break;;
-            * )
-                printf "    ${YELLOW}Skipping cleanup...${WHITE}\n"
-                break;;
-        esac
-    done
+    printf "This will remove all configuration files.\n"
+    read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
+    printf "${GREEN}==> Cleanup${WHITE}\n"
+    case $cleanup in
+        [Yy]* )
+            printf "    ${YELLOW}Removing configuration files...${WHITE}\n"
+            rm -rf $DVLP_DIR
+            ;;
+        * )
+            printf "    ${YELLOW}Skipping cleanup...${WHITE}\n"
+            ;;
+    esac
 }
 
 # START: Set up a project
@@ -188,26 +219,23 @@ dvlp_list() {
 
 # UPDATE: Update to the latest version of dvlp
 dvlp_update() {
-    while true; do
-        read -ep "Are you sure you want to update dvlp? (y/N): " update
-        printf "${GREEN}==> Update${WHITE}\n"
-        case $update in
-            [Yy]* )
-                # Remove the old script
-                printf "    ${YELLOW}Removing old script at \"$DVLP_INSTALL_PATH\"...${WHITE}\n"
-                rm $DVLP_INSTALL_PATH
+    read -ep "Are you sure you want to update dvlp? (y/N): " update
+    printf "${GREEN}==> Update${WHITE}\n"
+    case $update in
+        [Yy]* )
+            # Remove the old script
+            printf "    ${YELLOW}Removing old script at \"$DVLP_INSTALL_PATH\"...${WHITE}\n"
+            rm $DVLP_INSTALL_PATH
 
-                # Download the new script
-                printf "    ${YELLOW}Downloading new script to \"$DVLP_INSTALL_DIR/dvlp\"...${WHITE}\n"
-                curl -s https://raw.githubusercontent.com/kjbrum/dvlp/master/dvlp > $DVLP_INSTALL_DIR/dvlp
-                chmod +x $DVLP_INSTALL_DIR/dvlp
-
-                break;;
-            * )
-                printf "    ${YELLOW}Skipping update...${WHITE}\n"
-                break;;
-        esac
-    done
+            # Download the new script
+            printf "    ${YELLOW}Downloading new script to \"$DVLP_INSTALL_DIR/dvlp\"...${WHITE}\n"
+            curl -s https://raw.githubusercontent.com/kjbrum/dvlp/master/dvlp > $DVLP_INSTALL_DIR/dvlp
+            chmod +x $DVLP_INSTALL_DIR/dvlp
+            ;;
+        * )
+            printf "    ${YELLOW}Skipping update...${WHITE}\n"
+            ;;
+    esac
 }
 
 
