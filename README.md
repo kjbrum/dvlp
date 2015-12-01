@@ -24,10 +24,11 @@ Usage:
 
 Tasks:
     cleanup          Remove all the config files
+    config           Set up the config file for a specific project
     init             Set up the project files
     list             List all available projects
-    start            Set up a project
-        <project>    Name of the project you want to work on
+    start            Run a project's tasks
+        <project>    Name of the project you want to run
     update           Download the latest version of dvlp
     version          Display the current version
 ```
@@ -116,7 +117,8 @@ __Default:__
     - Default config file
     - Project config files
 - Take a screencast of actually using it
-- ~~Add an `update` task for downloading the most recent version~~
+- ~~Add a `config` command for easily creating a config file for a project~~
+- ~~Add an `update` command for downloading the most recent version~~
 - ~~Set up config file (default)~~
     - ~~Default tasks to run (editor,terminal,finder)~~
     - ~~Editor (Sublime Text)~~

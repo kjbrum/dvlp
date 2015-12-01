@@ -63,6 +63,67 @@ setup_project_config() {
 # DVLP COMMANDS
 # -------------------------------------------------------
 
+# CLEANUP: Remove all the config files
+dvlp_cleanup() {
+    printf "This will remove all configuration files.\n"
+    read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
+    printf "${GREEN}==> Cleanup${WHITE}\n"
+    case $cleanup in
+        [Yy]* )
+            printf "${YELLOW}Removing config files...${WHITE}\n"
+            rm -rf $DVLP_DIR
+            ;;
+        * )
+            printf "${YELLOW}Skipping cleanup...${WHITE}\n"
+            ;;
+    esac
+}
+
+# CONFIG: Set up the config file for a specific project
+dvlp_config() {
+    project="$2"
+    printf "Creating a config file for $project:\n"
+
+    read -ep "DVLP_TASKS: (editor,terminal,finder) " tasks
+    [ -z "$tasks" ] && tasks="editor,terminal,finder"
+
+    read -ep "DVLP_EDITOR: (sublime) " editor
+    [ -z "$editor" ] && editor="sublime"
+
+    read -ep "DVLP_TERMINAL: (iterm) " terminal
+    [ -z "$terminal" ] && terminal="iterm"
+
+    # Verify the users input
+    printf "\n"
+    printf "The following will be written to $DVLP_DIR/$project:\n"
+    printf "DVLP_TASKS=\"$tasks\"\n"
+    printf "DVLP_EDITOR=\"$editor\"\n"
+    printf "DVLP_TERMINAL=\"$terminal\"\n"
+    printf "\n"
+
+    # Confirm
+    read -ep "Everything look good? (Y/n): " good_to_go
+    case $good_to_go in
+        [Nn]* )
+            printf "${YELLOW}Skipping project config setup...${WHITE}\n"
+            ;;
+        * )
+            printf "${GREEN}Creating $project config file...\n"
+            touch $DVLP_DIR/$project
+cat > $DVLP_DIR/$project <<EOF
+# Project Tasks
+DVLP_TASKS="$tasks"
+
+# Project Editor
+DVLP_EDITOR="$editor"
+
+# Project Terminal
+DVLP_TERMINAL="$terminal"
+EOF
+            ;;
+    esac
+}
+
 # HELP: Display the help information
 dvlp_help() {
 cat <<EOF
@@ -77,20 +138,16 @@ Usage:
 
 Tasks:
     cleanup          Remove all the config files
+    config           Set up the config file for a specific project
     init             Set up the project files
     list             List all available projects
-    start            Set up a project
-        <project>    Name of the project you want to work on
+    start            Run a project's tasks
+        <project>    Name of the project you want to run
     update           Download the latest version of dvlp
     version          Display the current version
 
 EOF
 exit;
-}
-
-# VERSION: Display the current version
-dvlp_version() {
-    printf "v$VERSION\n"
 }
 
 # INIT: Set up the project files
@@ -137,7 +194,7 @@ dvlp_init() {
                 printf "${YELLOW}Skipping default config setup...${WHITE}\n"
                 ;;
             * )
-                printf "${GREEN}Creating config file:${WHITE} $DVLP_CONFIG\n"
+                printf "${GREEN}Creating default config file...\n"
                 touch $DVLP_CONFIG
 cat > $DVLP_CONFIG <<EOF
 # Default Tasks
@@ -163,20 +220,12 @@ EOF
     printf "\n${YELLOW}The default config file can be modified at \"$DVLP_CONFIG\"\n"
 }
 
-# CLEANUP: Cleanup config files
-dvlp_cleanup() {
-    printf "This will remove all configuration files.\n"
-    read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
-    printf "${GREEN}==> Cleanup${WHITE}\n"
-    case $cleanup in
-        [Yy]* )
-            printf "${YELLOW}Removing configuration files...${WHITE}\n"
-            rm -rf $DVLP_DIR
-            ;;
-        * )
-            printf "${YELLOW}Skipping cleanup...${WHITE}\n"
-            ;;
-    esac
+# LIST: List all available projects
+dvlp_list() {
+    printf "${GREEN}==> List${WHITE}\n"
+
+    # TODO
+    # List all the current project configurations
 }
 
 # START: Set up a project
@@ -209,14 +258,6 @@ dvlp_start() {
     # '
 }
 
-# LIST: List all available projects
-dvlp_list() {
-    printf "${GREEN}==> List${WHITE}\n"
-
-    # TODO
-    # List all the current project configurations
-}
-
 # UPDATE: Update to the latest version of dvlp
 dvlp_update() {
     read -ep "Are you sure you want to update dvlp? (y/N): " update
@@ -236,6 +277,11 @@ dvlp_update() {
             printf "${YELLOW}Skipping update...${WHITE}\n"
             ;;
     esac
+}
+
+# VERSION: Display the current version
+dvlp_version() {
+    printf "v$VERSION\n"
 }
 
 
@@ -269,6 +315,7 @@ fi
 # See what command we need to run
 case "$1" in
     cleanup)    dvlp_cleanup;;
+    config)     dvlp_config "$@";;
     init)       dvlp_init "$@";;
     list)       dvlp_list "$@";;
     start)      dvlp_start "$@";;
