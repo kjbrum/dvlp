@@ -35,51 +35,56 @@ Tasks:
 
 ## Config
 
-#### DEFAULT_TASKS
+#### DVLP_TASKS
 
 The default tasks to run for a project. _(Be sure to separate each task with a comma)_
 
 __Options:__
 
-- editor
-- terminal
-- finder
+```
+editor
+    "path_to_folder"                 The path of a folder to open in an editor
+terminal
+    new [tab,window]                 Open a new tab/window
+        "path_to_folder"
+    split [top|right|bottom|left]    Split a pane
+        "path_to_folder"
+finder                               Open a folder in a new Finder window
+    "path_to_folder"
+
+"path_to_folder" default = $DVLP_PROJECT_DIR/<project>
+```
 
 __Default:__
 
-editor, terminal, finder
+editor,terminal,finder
 
-#### DEFAULT_EDITOR
+#### DVLP_EDITOR
 
 The default text editor application.
 
 __Options:__
 
 - sublime
-- atom
-- brackets
-- textmate
-- coda
 
 __Default:__
 
 sublime
 
 
-#### DEFAULT_TERMINAL
+#### DVLP_TERMINAL
 
 The default terminal application.
 
 __Options:__
 
 - iterm
-- terminal
 
 __Default:__
 
 iterm
 
-#### PROJECT_DIR
+#### DVLP_PROJECT_DIR
 
 The folder your local projects are in.
 
@@ -90,16 +95,17 @@ __Default:__
 
 ## To-Do
 
-- Handle many different tasks
-    - Terminal
-        - new [tab,window] _(opens a new window/tab)_
-        - split [top,right,bottom,left] _(splits a pane)_
-    - Editor
-        - editor "/www/sites/project/content/themes/theme-name" _(opens file/folder in an editor)_
-    - Finder
-        - open "/www/sites/project" _(opens file/folder in Finder)_
+- Add support for additional tasks
     - Build Tools
-        - [grunt,gulp,npm] "task to run" _(run a build tool task)_
+        - [grunt|gulp|npm] "task to run" _(run a build tool task)_
+    - Tests?
+- Add support for additional editors
+    - atom
+    - brackets
+    - textmate
+    - coda
+- Add support for additional terminals
+    - terminal
 - Add more information to README
     - Default config file
     - Project config files
