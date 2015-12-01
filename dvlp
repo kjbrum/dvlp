@@ -199,7 +199,7 @@ dvlp_update() {
 
                 # Download the new script
                 printf "    ${YELLOW}Downloading new script to \"$DVLP_INSTALL_DIR/dvlp\"...${WHITE}\n"
-                curl https://raw.githubusercontent.com/kjbrum/dvlp/master/dvlp > $DVLP_INSTALL_DIR/dvlp
+                curl -s https://raw.githubusercontent.com/kjbrum/dvlp/master/dvlp > $DVLP_INSTALL_DIR/dvlp
                 chmod +x $DVLP_INSTALL_DIR/dvlp
 
                 break;;
