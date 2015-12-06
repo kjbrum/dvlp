@@ -30,15 +30,22 @@ DVLP_CONFIG="$DVLP_DIR/config"
 
 # Throw an error
 error() {
-    i=0
-    while [ "$i" -lt "$2" ]; do
-        printf "    "
-        i=$[$i+1]
-    done
     printf "${RED}Error:${WHITE} ${1}\n"
     exit
 }
 
+# Throw a warning
+warn() {
+    printf "${YELLOW}${1}${WHITE}\n"
+    exit
+}
+
+# Throw a success message
+success() {
+    printf "${GREEN}${1}${WHITE}\n"
+}
+
+# Remove the trailing slash from a string, if it exists
 strip_trailing_slash() {
     result="$1"
 
@@ -67,14 +74,14 @@ setup_project_config() {
 dvlp_cleanup() {
     printf "This will remove all configuration files.\n"
     read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
-    printf "${GREEN}==> Cleanup${WHITE}\n"
+    success "==> Cleanup${WHITE}"
     case $cleanup in
         [Yy]* )
-            printf "${YELLOW}Removing config files...${WHITE}\n"
+            warn "Removing config files..."
             rm -rf $DVLP_DIR
             ;;
         * )
-            printf "${YELLOW}Skipping cleanup...${WHITE}\n"
+            warn "Skipping cleanup..."
             ;;
     esac
 }
@@ -82,7 +89,13 @@ dvlp_cleanup() {
 # CONFIG: Set up the config file for a specific project
 dvlp_config() {
     project="$2"
-    printf "Creating a config file for $project:\n"
+
+    # Check if a project name was supplied
+    if [ -z "$3" ]; then
+        error "You need to supply a project name."
+    fi
+
+    success "Creating a config file for $project:"
 
     read -ep "DVLP_TASKS: (editor,terminal,finder) " tasks
     [ -z "$tasks" ] && tasks="editor,terminal,finder"
@@ -105,10 +118,10 @@ dvlp_config() {
     read -ep "Everything look good? (Y/n): " good_to_go
     case $good_to_go in
         [Nn]* )
-            printf "${YELLOW}Skipping project config setup...${WHITE}\n"
+            warn "Skipping project config setup..."
             ;;
         * )
-            printf "${GREEN}Creating $project config file...\n"
+            success "Creating $project config file..."
             touch $DVLP_DIR/$project
 cat > $DVLP_DIR/$project <<EOF
 # Project Tasks
@@ -134,13 +147,15 @@ A command line tool for managing local projects.
 
 Usage:
     dvlp init
+    dvlp config <project>
     dvlp start <project>
 
 Tasks:
-    cleanup          Remove all the config files
+    cleanup          Remove all config files
     config           Set up the config file for a specific project
-    init             Set up the project files
-    list             List all available projects
+        <project>    Name of the project you want to run
+    init             Initialize necessary config files
+    list             List all projects with config files
     start            Run a project's tasks
         <project>    Name of the project you want to run
     update           Download the latest version of dvlp
@@ -152,15 +167,15 @@ exit;
 
 # INIT: Set up the project files
 dvlp_init() {
-    printf "${GREEN}==> Init${WHITE}\n"
+    success "==> Init${WHITE}"
 
     if [ $is_setup = true ]; then
-        error "You have already run the setup task." 0
+        error "You have already run the setup task."
     fi
 
     # Create directory if it doesn't exist
     if [ ! -d "$DVLP_DIR" ]; then
-        printf "${GREEN}Creating directory:${WHITE} $DVLP_DIR\n"
+        success "Creating directory"
         mkdir $DVLP_DIR
     fi
 
@@ -191,10 +206,10 @@ dvlp_init() {
         read -ep "Everything look good? (Y/n): " good_to_go
         case $good_to_go in
             [Nn]* )
-                printf "${YELLOW}Skipping default config setup...${WHITE}\n"
+                warn "Skipping default config setup..."
                 ;;
             * )
-                printf "${GREEN}Creating default config file...\n"
+                success "Creating default config file"
                 touch $DVLP_CONFIG
 cat > $DVLP_CONFIG <<EOF
 # Default Tasks
@@ -217,12 +232,12 @@ EOF
         esac
     fi
 
-    printf "\n${YELLOW}The default config file can be modified at \"$DVLP_CONFIG\"\n"
+    warn "\nThe default config file can be modified at \"$DVLP_CONFIG\""
 }
 
 # LIST: List all available projects
 dvlp_list() {
-    printf "${GREEN}==> List${WHITE}\n"
+    success "==> List"
 
     # TODO
     # List all the current project configurations
@@ -231,7 +246,13 @@ dvlp_list() {
 # START: Set up a project
 dvlp_start() {
     project="$2"
-    printf "${GREEN}==> Start project $project${WHITE}\n"
+
+    # Check if a project name was supplied
+    if [ -z "$3" ]; then
+        error "You need to supply a project name."
+    fi
+
+    success "==> Start project $project"
 
     # Get project specific config
     setup_project_config $project
@@ -261,20 +282,20 @@ dvlp_start() {
 # UPDATE: Update to the latest version of dvlp
 dvlp_update() {
     read -ep "Are you sure you want to update dvlp? (y/N): " update
-    printf "${GREEN}==> Update${WHITE}\n"
     case $update in
         [Yy]* )
+            success "==> Update"
             # Remove the old script
-            printf "${YELLOW}Removing old script at \"$DVLP_INSTALL_PATH\"...${WHITE}\n"
+            warn "Removing old script at \"$DVLP_INSTALL_PATH\"..."
             rm $DVLP_INSTALL_PATH
 
             # Download the new script
-            printf "    ${YELLOW}Downloading new script to \"$DVLP_INSTALL_DIR/dvlp\"...${WHITE}\n"
+            warn "Downloading new script to \"$DVLP_INSTALL_DIR/dvlp\"..."
             curl -s https://raw.githubusercontent.com/kjbrum/dvlp/master/dvlp > $DVLP_INSTALL_DIR/dvlp
             chmod +x $DVLP_INSTALL_DIR/dvlp
             ;;
         * )
-            printf "${YELLOW}Skipping update...${WHITE}\n"
+            warn "Skipping update..."
             ;;
     esac
 }
@@ -308,7 +329,7 @@ else
     is_setup=false
 
     if [ "$1" != "init" -a "$1" != "version" ]; then
-        error "You need to run \"dvlp init\" to get things set up." 0
+        error "You need to run \"dvlp init\" to get things set up."
     fi
 fi
 
@@ -321,5 +342,5 @@ case "$1" in
     start)      dvlp_start "$@";;
     update)     dvlp_update;;
     version)    dvlp_version;;
-    *)          printf "${RED}Error:${WHITE} Illegal task -- $1 (see \"dvlp --help\" for help)\n";;
+    *)          error "Illegal task -- $1 (see \"dvlp --help\" for help)";;
 esac

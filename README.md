@@ -20,16 +20,18 @@ A command line tool for managing local projects.
 
 Usage:
     dvlp init
+    dvlp config <project>
     dvlp start <project>
 
 Tasks:
-    cleanup          Remove all the config files
+    cleanup          Remove all config files
     config           Set up the config file for a specific project
-    init             Set up the project files
-    list             List all available projects
+        <project>    Name of the project you want to run
+    init             Initialize necessary config files
+    list             List all projects with config files
     start            Run a project's tasks
         <project>    Name of the project you want to run
-    update           Download the latest version of dvlp
+    update           Download the latest version
     version          Display the current version
 ```
 
