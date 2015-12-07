@@ -74,10 +74,14 @@ trigger_task() {
     case "$task" in
         editor)
             echo "open editor"
+            # Open the project directory in the default editor
+            # osascript -e '
+            #     tell application "'$DVLP_EDITOR'"
+            #         activate
+            #     end tell
+            # '
             ;;
         terminal)
-            echo "open terminal"
-
             # Open a new tab in the project directory
             osascript -e '
                 tell application "'$DVLP_TERMINAL'"
@@ -94,12 +98,15 @@ trigger_task() {
 
                         tell application "System Events" to keystroke "d" using {command down, shift down}
                     end tell
-
                 end tell
             '
             ;;
         finder)
-            echo "open finder"
+            osascript -e '
+                tell application "Finder"
+                    open ("'$DVLP_PROJECT_DIR'/'$project'" as POSIX file)
+                end tell
+            '
             ;;
         '')
             error "No tasks are set for this project"
