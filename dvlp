@@ -77,9 +77,8 @@ trigger_task() {
             ;;
         terminal)
             echo "open terminal"
-            echo "$DVLP_TERMINAL"
 
-            # Create a new tab, print working directory
+            # Open a new tab in the project directory
             osascript -e '
                 tell application "'$DVLP_TERMINAL'"
                     activate
@@ -98,11 +97,6 @@ trigger_task() {
 
                 end tell
             '
-            # activate application "'$DVLP_TERMINAL'"
-            # tell application "System Events" to keystroke "t" using command down
-            # tell application "'$DVLP_TERMINAL'" to tell session -1 of current terminal to write text "pwd"
-            # tell application "System Events" to keystroke "d" using {command down, shift down}
-            # tell application "'$DVLP_TERMINAL'" to tell session -1 of current terminal to write text "grunt"
             ;;
         finder)
             echo "open finder"
