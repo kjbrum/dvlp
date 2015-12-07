@@ -64,6 +64,57 @@ setup_project_config() {
     fi
 }
 
+# Handle running the tasks
+trigger_task() {
+    echo "Args: $@"
+
+    project="$1"
+    task="$2"
+
+    case "$task" in
+        editor)
+            echo "open editor"
+            ;;
+        terminal)
+            echo "open terminal"
+            echo "$DVLP_TERMINAL"
+
+            # Create a new tab, print working directory
+            osascript -e '
+                tell application "'$DVLP_TERMINAL'"
+                    activate
+
+                    tell application "System Events" to keystroke "t" using command down
+
+                    set _session to current session of current terminal
+
+                    tell _session
+                        write text "cd '$DVLP_PROJECT_DIR'/'$project'"
+
+                        delay 2
+
+                        tell application "System Events" to keystroke "d" using {command down, shift down}
+                    end tell
+
+                end tell
+            '
+            # activate application "'$DVLP_TERMINAL'"
+            # tell application "System Events" to keystroke "t" using command down
+            # tell application "'$DVLP_TERMINAL'" to tell session -1 of current terminal to write text "pwd"
+            # tell application "System Events" to keystroke "d" using {command down, shift down}
+            # tell application "'$DVLP_TERMINAL'" to tell session -1 of current terminal to write text "grunt"
+            ;;
+        finder)
+            echo "open finder"
+            ;;
+        '')
+            error "No tasks are set for this project"
+            ;;
+        *)
+            error "Invalid task -- $1 (see \"dvlp --help\" for help)"
+            ;;
+    esac
+}
 
 
 # -------------------------------------------------------
@@ -91,7 +142,7 @@ dvlp_config() {
     project="$2"
 
     # Check if a project name was supplied
-    if [ -z "$3" ]; then
+    if [ -z "$project" ]; then
         error "You need to supply a project name."
     fi
 
@@ -248,11 +299,11 @@ dvlp_start() {
     project="$2"
 
     # Check if a project name was supplied
-    if [ -z "$3" ]; then
+    if [ -z "$project" ]; then
         error "You need to supply a project name."
     fi
 
-    success "==> Start project $project"
+    success "==> Starting $project"
 
     # Get project specific config
     setup_project_config $project
@@ -264,19 +315,9 @@ dvlp_start() {
     # Parse and loop through the list of tasks
     IFS=',' read -ra TASKS <<< "$DVLP_TASKS"
     for t in "${TASKS[@]}"; do
-        # TODO
-        # Perform the necessary command
-        echo "$t"
+        # Trigger the necessary task
+        trigger_task "$project" "$t"
     done
-
-    # Create a new tab, print working directory, split it in half, run grunt
-    # osascript -e '
-    #     activate application "'$DEFAULT_TERMINAL'"
-    #     tell application "System Events" to keystroke "t" using command down
-    #     tell application "'$DEFAULT_TERMINAL'" to tell session -1 of current terminal to write text "pwd"
-    #     tell application "System Events" to keystroke "d" using {command down, shift down}
-    #     tell application "'$DEFAULT_TERMINAL'" to tell session -1 of current terminal to write text "grunt"
-    # '
 }
 
 # UPDATE: Update to the latest version of dvlp
@@ -342,5 +383,5 @@ case "$1" in
     start)      dvlp_start "$@";;
     update)     dvlp_update;;
     version)    dvlp_version;;
-    *)          error "Illegal task -- $1 (see \"dvlp --help\" for help)";;
+    *)          error "Illegal command -- $1 (see \"dvlp --help\" for help)";;
 esac
