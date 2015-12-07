@@ -75,14 +75,16 @@ trigger_task() {
         editor)
             echo "open editor"
             # Open the project directory in the default editor
-            # osascript -e '
-            #     tell application "'$DVLP_EDITOR'"
-            #         activate
-            #     end tell
-            # '
+            osascript -e '
+                tell application "'$DVLP_EDITOR'"
+                    activate
+
+                    open "'$DVLP_PROJECT_DIR'/'$project'"
+                end tell
+            '
             ;;
         terminal)
-            # Open a new tab in the project directory
+            # Open a new tab at the project directory
             osascript -e '
                 tell application "'$DVLP_TERMINAL'"
                     activate
@@ -102,6 +104,7 @@ trigger_task() {
             '
             ;;
         finder)
+            # Open a Finder window at the project directory
             osascript -e '
                 tell application "Finder"
                     open ("'$DVLP_PROJECT_DIR'/'$project'" as POSIX file)
