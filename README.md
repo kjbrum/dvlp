@@ -68,11 +68,11 @@ The default text editor application.
 
 __Options:__
 
-- sublime
+- sublime text
 
 __Default:__
 
-sublime
+sublime text
 
 
 #### DVLP_TERMINAL
@@ -97,6 +97,7 @@ __Default:__
 
 
 ## To-Do
+- Call `dvlp_config` when setting up the default config (DRY)
 - Get the base tasks working
     - editor
     - terminal

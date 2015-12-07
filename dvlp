@@ -37,7 +37,6 @@ error() {
 # Throw a warning
 warn() {
     printf "${YELLOW}${1}${WHITE}\n"
-    exit
 }
 
 # Throw a success message
@@ -73,13 +72,20 @@ trigger_task() {
 
     case "$task" in
         editor)
-            echo "open editor"
             # Open the project directory in the default editor
             osascript -e '
                 tell application "'$DVLP_EDITOR'"
                     activate
 
                     open "'$DVLP_PROJECT_DIR'/'$project'"
+                end tell
+            '
+            ;;
+        finder)
+            # Open a Finder window at the project directory
+            osascript -e '
+                tell application "Finder"
+                    open ("'$DVLP_PROJECT_DIR'/'$project'" as POSIX file)
                 end tell
             '
             ;;
@@ -100,14 +106,6 @@ trigger_task() {
 
                         tell application "System Events" to keystroke "d" using {command down, shift down}
                     end tell
-                end tell
-            '
-            ;;
-        finder)
-            # Open a Finder window at the project directory
-            osascript -e '
-                tell application "Finder"
-                    open ("'$DVLP_PROJECT_DIR'/'$project'" as POSIX file)
                 end tell
             '
             ;;
@@ -155,8 +153,8 @@ dvlp_config() {
     read -ep "DVLP_TASKS: (editor,terminal,finder) " tasks
     [ -z "$tasks" ] && tasks="editor,terminal,finder"
 
-    read -ep "DVLP_EDITOR: (sublime) " editor
-    [ -z "$editor" ] && editor="sublime"
+    read -ep "DVLP_EDITOR: (sublime text) " editor
+    [ -z "$editor" ] && editor="sublime text"
 
     read -ep "DVLP_TERMINAL: (iterm) " terminal
     [ -z "$terminal" ] && terminal="iterm"
@@ -239,8 +237,8 @@ dvlp_init() {
         read -ep "DVLP_TASKS: (editor,terminal,finder) " tasks
         [ -z "$tasks" ] && tasks="editor,terminal,finder"
 
-        read -ep "DVLP_EDITOR: (sublime) " editor
-        [ -z "$editor" ] && editor="sublime"
+        read -ep "DVLP_EDITOR: (sublime text) " editor
+        [ -z "$editor" ] && editor="sublime text"
 
         read -ep "DVLP_TERMINAL: (iterm) " terminal
         [ -z "$terminal" ] && terminal="iterm"
