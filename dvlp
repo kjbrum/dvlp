@@ -65,8 +65,6 @@ setup_project_config() {
 
 # Handle running the tasks
 trigger_task() {
-    echo "Args: $@"
-
     project="$1"
     task="$2"
 
@@ -74,10 +72,12 @@ trigger_task() {
         editor)
             # Open the project directory in the default editor
             osascript -e '
-                tell application "'$DVLP_EDITOR'"
+                tell application "'"$DVLP_EDITOR"'"
                     activate
 
-                    open "'$DVLP_PROJECT_DIR'/'$project'"
+                    open "'"$DVLP_PROJECT_DIR"'/'"$project"'"
+
+                    tell application "System Events" to keystroke "f" using {command down, control down}
                 end tell
             '
             ;;
@@ -85,14 +85,14 @@ trigger_task() {
             # Open a Finder window at the project directory
             osascript -e '
                 tell application "Finder"
-                    open ("'$DVLP_PROJECT_DIR'/'$project'" as POSIX file)
+                    open ("'"$DVLP_PROJECT_DIR"'/'"$project"'" as POSIX file)
                 end tell
             '
             ;;
         terminal)
             # Open a new tab at the project directory
             osascript -e '
-                tell application "'$DVLP_TERMINAL'"
+                tell application "'"$DVLP_TERMINAL"'"
                     activate
 
                     tell application "System Events" to keystroke "t" using command down
@@ -100,7 +100,7 @@ trigger_task() {
                     set _session to current session of current terminal
 
                     tell _session
-                        write text "cd '$DVLP_PROJECT_DIR'/'$project'"
+                        write text "cd '"$DVLP_PROJECT_DIR"'/'"$project"'"
 
                         delay 2
 
@@ -125,18 +125,29 @@ trigger_task() {
 
 # CLEANUP: Remove all the config files
 dvlp_cleanup() {
-    printf "This will remove all configuration files.\n"
-    read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
-    success "==> Cleanup${WHITE}"
-    case $cleanup in
-        [Yy]* )
-            warn "Removing config files..."
-            rm -rf $DVLP_DIR
-            ;;
-        * )
-            warn "Skipping cleanup..."
-            ;;
-    esac
+
+    if [ "$2" ]; then
+        if [ -f "$DVLP_DIR/$2" ]; then
+            success "==> Cleanup $2${WHITE}"
+            rm "$DVLP_DIR/$2"
+            warn "Removed \"$2\" config file"
+        else
+            warn "A config file for \"$2\" doesn't exist"
+        fi
+    else
+        printf "This will remove all configuration files.\n"
+        read -ep "Are you sure you want to run the cleanup? (y/N): " cleanup
+        case $cleanup in
+            [Yy]* )
+                success "==> Cleanup${WHITE}"
+                warn "Removing config files..."
+                rm -rf $DVLP_DIR
+                ;;
+            * )
+                warn "Skipped cleanup"
+                ;;
+        esac
+    fi
 }
 
 # CONFIG: Set up the config file for a specific project
@@ -310,10 +321,6 @@ dvlp_start() {
     # Get project specific config
     setup_project_config $project
 
-    echo "Tasks: $DVLP_TASKS"
-    echo "Editor: $DVLP_EDITOR"
-    echo "Terminal: $DVLP_TERMINAL"
-
     # Parse and loop through the list of tasks
     IFS=',' read -ra TASKS <<< "$DVLP_TASKS"
     for t in "${TASKS[@]}"; do
@@ -378,7 +385,7 @@ fi
 
 # See what command we need to run
 case "$1" in
-    cleanup)    dvlp_cleanup;;
+    cleanup)    dvlp_cleanup "$@";;
     config)     dvlp_config "$@";;
     init)       dvlp_init "$@";;
     list)       dvlp_list "$@";;
