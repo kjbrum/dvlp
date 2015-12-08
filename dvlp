@@ -216,6 +216,7 @@ Usage:
 
 Tasks:
     cleanup          Remove all config files
+        <project>    Name of the project of which you want to remove config files
     config           Set up the config file for a specific project
         <project>    Name of the project you want to run
     init             Initialize necessary config files

@@ -25,13 +25,14 @@ Usage:
 
 Tasks:
     cleanup          Remove all config files
+        <project>    Name of the project of which you want to remove config files
     config           Set up the config file for a specific project
         <project>    Name of the project you want to run
     init             Initialize necessary config files
     list             List all projects with config files
     start            Run a project's tasks
         <project>    Name of the project you want to run
-    update           Download the latest version
+    update           Download the latest version of dvlp
     version          Display the current version
 ```
 
@@ -46,16 +47,16 @@ __Options:__
 
 ```
 editor
-    "path_to_folder"                 The path of a folder to open in an editor
+    "path/to/folder"                 The path of a folder to open in an editor
 terminal
     new [tab,window]                 Open a new tab/window
-        "path_to_folder"
+        "path/to/folder"
     split [top|right|bottom|left]    Split a pane
-        "path_to_folder"
+        "path/to/folder"
 finder                               Open a folder in a new Finder window
-    "path_to_folder"
+    "path/to/folder"
 
-"path_to_folder" default = $DVLP_PROJECT_DIR/<project>
+"path/to/folder" default = $DVLP_PROJECT_DIR/<project>
 ```
 
 __Default:__
@@ -100,10 +101,14 @@ __Default:__
 - Call `dvlp_config` when setting up the default config (DRY)
 - Get the base tasks working
     - editor
+        - "path/to/folder"
     - terminal
         - new [tab|window]
+            - "path/to/folder"
         - split [vertical|horizontal]
+            - "path/to/folder"
     - finder
+        - "path/to/folder"
 - Add support for additional tasks
     - Build Tools
         - [grunt|gulp|npm] "task to run" _(run a build tool task)_
@@ -120,6 +125,7 @@ __Default:__
     - Default config file
     - Project config files
 - Take a screencast of actually using it
+- Make additional support work in the form of "modules" or "plugins"
 - ~~Add a `config` command for easily creating a config file for a project~~
 - ~~Add an `update` command for downloading the most recent version~~
 - ~~Set up config file (default)~~
