@@ -109,23 +109,26 @@ __Default:__
             - "path/to/folder"
     - finder
         - "path/to/folder"
-- Add support for additional tasks
-    - Build Tools
-        - [grunt|gulp|npm] "task to run" _(run a build tool task)_
-    - Tests?
-- Add support for additional editors
+- Add support for build tools (plugin?)
+    - [grunt|gulp|npm] "task to run" _(run a build tool task)_
+- Add support for time tracking (plugin?)
+    - harvest
+    - toggl
+- Add support for additional editors (plugin?)
     - atom
     - brackets
     - textmate
     - coda
 - Add support for additional terminals
     - terminal
+    - iterm
 - Add Bash autocomplete
 - Add more information to README
     - Default config file
     - Project config files
+- Add support for default settings
 - Take a screencast of actually using it
-- Make additional support work in the form of "modules" or "plugins"
+- Make additional support work in the form of "plugins"
 - ~~Add a `config` command for easily creating a config file for a project~~
 - ~~Add an `update` command for downloading the most recent version~~
 - ~~Set up config file (default)~~
