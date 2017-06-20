@@ -116,6 +116,7 @@ __Default:__
     - toggl
 - Add support for additional editors (plugin?)
     - atom
+    - visual-studio
     - brackets
     - textmate
     - coda
